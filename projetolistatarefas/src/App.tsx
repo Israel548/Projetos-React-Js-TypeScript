@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo, useCallback } from "react"
 
 function App(){
 
@@ -29,7 +29,8 @@ function App(){
     localStorage.setItem("@cursoreact", JSON.stringify(tasks))
   }, [tasks])
 
-  function handleRegister(){
+
+  const handleRegister = useCallback(() =>{
     if(!input){
       alert("Preencha o nome da sua tarefa")
       return;
@@ -41,8 +42,8 @@ function App(){
 
     setTasks(tarefas => [...tarefas, input])
     setInput("")
-    
-  }
+  }, [input, tasks])
+
 
   function handleSaveEdit(){
     const findIndexTask = tasks.findIndex(task => task === editTask.task)
@@ -74,6 +75,10 @@ function App(){
     })
   }
 
+  const totalTarefas = useMemo(() => {
+    return tasks.length
+  }, [tasks])
+
   return (
     <div>
       <h1>Lista de tarefas</h1>
@@ -89,6 +94,9 @@ function App(){
         {editTask.enabled ? "Atualizar tarefa" : "Adicionar tarefa"}
       </button>
       <hr/>
+
+      <strong>Total de tarefas {totalTarefas}</strong>
+      <br/><br/>
 
       {tasks.map( (item, index) =>(
         <section key={item}>
