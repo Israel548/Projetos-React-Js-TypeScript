@@ -14,7 +14,7 @@ const rotas = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: "/detail/cripto",
+                path: "/detail/:cripto",
                 element: <Detail />
             },
             {
